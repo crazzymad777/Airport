@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-
-// TODO: класс Ticker для хранения билета и который можно будет использовать в ORM.
 
 namespace Airport
 {
@@ -21,17 +20,23 @@ namespace Airport
         }
         public bool check_ticket_data(TokenData token_data)
         {
-            // Здесь должно быть обращение к БД.
-
-            if (token_data.ticket_number == 45301)
+            using (var context = new DatabaseContext())
             {
-                if (token_data.last_name == "Москов")
+                TicketModel ticketModel = context.Tickets.Find(token_data.ticket_number);
+
+                if (ticketModel != null)
                 {
-                    if (token_data.first_name == "Юрий")
+                    if (token_data.ticket_number == ticketModel.Id)
                     {
-                        if (token_data.middle_name == "Алексеевич")
+                        if (token_data.last_name == ticketModel.Last_name)
                         {
-                            return true;
+                            if (token_data.first_name == ticketModel.First_name)
+                            {
+                                if (token_data.middle_name == ticketModel.Middle_name)
+                                {
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }
@@ -40,7 +45,18 @@ namespace Airport
         }
         public bool insertTicket(TokenData token_data, DateTime datetime)
         {
-            // Здесь должно быть добавление записи в БД
+            using (var context = new DatabaseContext())
+            {
+                context.Tokens.Add(new TokenModel()
+                {
+                    First_name = token_data.first_name,
+                    Middle_name = token_data.middle_name,
+                    Last_name = token_data.last_name,
+                    Time = datetime.ToString(),
+                    Ticket_number = token_data.ticket_number
+                });
+                context.SaveChanges();
+            }
             Console.WriteLine($"DataCenter: добавлена запись о талоне ({token_data.ticket_number}, {token_data.getFullname()}, {datetime})");
             return true;
         }
