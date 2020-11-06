@@ -18,10 +18,31 @@ namespace Airport
                 return last_name + " " + first_name + " " + middle_name;
             }
         }
+        public void seedTestData()
+        {
+            using (var context = new DatabaseContext())
+            {
+                context.Database.EnsureCreated();
+
+                var testTicket = context.Tickets.First();
+                if (testTicket == null)
+                {
+                    context.Tickets.Add(new TicketModel
+                    {
+                        Id = 45301,
+                        First_name = "Юрий",
+                        Middle_name = "Алексеевич",
+                        Last_name = "Москов"
+                    });
+                }
+                context.SaveChanges();
+            }
+        }
         public bool check_ticket_data(TokenData token_data)
         {
             using (var context = new DatabaseContext())
             {
+                context.Database.EnsureCreated();
                 TicketModel ticketModel = context.Tickets.Find(token_data.ticket_number);
 
                 if (ticketModel != null)
@@ -47,6 +68,7 @@ namespace Airport
         {
             using (var context = new DatabaseContext())
             {
+                context.Database.EnsureCreated();
                 context.Tokens.Add(new TokenModel()
                 {
                     First_name = token_data.first_name,

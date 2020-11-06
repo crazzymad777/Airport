@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Airport
 {
@@ -9,6 +10,9 @@ namespace Airport
             // Создаём объекты Терминала выдачи талонов и Центра сбора данных
             DataCenter data_center = new DataCenter();
             TicketTerminal ticket_terminal = new TicketTerminal(data_center);
+
+            // Загружаем в БД тестовые данные
+            data_center.seedTestData();
 
             // Считываем с консоли ФИО и номер билета
             DataCenter.TokenData token_data = new DataCenter.TokenData();
