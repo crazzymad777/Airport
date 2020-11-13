@@ -24,7 +24,7 @@ namespace Airport
             {
                 context.Database.EnsureCreated();
 
-                var testTicket = context.Tickets.First();
+                var testTicket = context.Tickets.FirstOrDefault();
                 if (testTicket == null)
                 {
                     context.Tickets.Add(new TicketModel

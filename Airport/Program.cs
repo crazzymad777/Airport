@@ -1,33 +1,23 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Airport
 {
-    class Program
+    static class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
         {
-            // Создаём объекты Терминала выдачи талонов и Центра сбора данных
-            DataCenter data_center = new DataCenter();
-            TicketTerminal ticket_terminal = new TicketTerminal(data_center);
-
-            // Загружаем в БД тестовые данные
-            data_center.seedTestData();
-
-            // Считываем с консоли ФИО и номер билета
-            DataCenter.TokenData token_data = new DataCenter.TokenData();
-
-            Console.WriteLine("Введите номер билета: ");
-            token_data.ticket_number = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Введите Фамилию: ");
-            token_data.last_name = Console.ReadLine();
-            Console.WriteLine("Введите Имя: ");
-            token_data.first_name = Console.ReadLine();
-            Console.WriteLine("Введите Отчество: ");
-            token_data.middle_name = Console.ReadLine();
-
-            // Передать значения в объект Терминала выдачи талонов
-            ticket_terminal.passData(token_data);
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
         }
     }
 }

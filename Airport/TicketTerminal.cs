@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Airport
 {
@@ -19,12 +20,12 @@ namespace Airport
                 // Всё ок, выдаём талон
                 DateTime localDate = DateTime.Now;
                 datacenter.insertTicket(token_data, localDate);
-                Console.WriteLine($"Талон выдан {localDate}, номер билета: {token_data.ticket_number}");
+                MessageBox.Show($"Талон выдан {localDate}, номер билета: {token_data.ticket_number}", "Терминал выдачи талонов", MessageBoxButtons.OK);
             }
             else
             {
                 // Что-то пошло не так, выводим ошибку
-                Console.WriteLine($"Ошибка: введены неправильные данные (Номер билета: {token_data.ticket_number}, ФИО: {token_data.getFullname()})");
+                MessageBox.Show($"Ошибка: введены неправильные данные (Номер билета: {token_data.ticket_number}, ФИО: {token_data.getFullname()})", "Терминал выдачи талонов", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
